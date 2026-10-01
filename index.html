@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+</head>
+<body>
+<title>Enjuvie Creator Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#fbf6f8; --surface:#ffffff; --ink:#24142a; --muted:#76667c; --line:#ecdfe7;
+  --accent:#c8235f; --accent-ink:#ffffff; --accent-soft:#f8e1ea;
+  --gold:#9a6b06; --gold-soft:#f6ead0; --slot:#f1e7ed;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#160e19; --surface:#201525; --ink:#f6edf3; --muted:#a795ad; --line:#33253a;
+    --accent:#f0568f; --accent-ink:#1a0b12; --accent-soft:#3a1a2a;
+    --gold:#e5b44f; --gold-soft:#3a2c10; --slot:#2a1d30;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#160e19; --surface:#201525; --ink:#f6edf3; --muted:#a795ad; --line:#33253a;
+  --accent:#f0568f; --accent-ink:#1a0b12; --accent-soft:#3a1a2a;
+  --gold:#e5b44f; --gold-soft:#3a2c10; --slot:#2a1d30;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);padding-block:clamp(28px,6vw,64px) 48px;display:grid;gap:clamp(40px,7vw,72px);grid-template-columns:minmax(0,1fr)}
+.wrap>*,.hero>*,.board>*{min-width:0}
+.eyebrow{font:700 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* hero */
+.hero{display:grid;gap:28px}
+h1{font:900 clamp(52px,11vw,124px)/.86 var(--display);text-transform:uppercase;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1 .prize{color:var(--accent);display:inline-block}
+.lede{max-width:58ch;margin:0;font-size:clamp(16px,2vw,19px);color:var(--muted)}
+.lede b{color:var(--ink);font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid var(--line)}
+.fact{padding:18px 18px 18px 0;display:grid;gap:4px;align-content:start}
+.fact+.fact{padding-left:18px;border-left:1px solid var(--line)}
+.fact .n{font:800 clamp(34px,5vw,48px)/1 var(--display);font-variant-numeric:tabular-nums}
+.fact .l{font-size:14px;color:var(--muted);max-width:28ch}
+@media (max-width:640px){
+  .facts{grid-template-columns:1fr}
+  .fact,.fact+.fact{padding:14px 0;border-left:0}
+  .fact+.fact{border-top:1px solid var(--line)}
+}
+
+/* month strip */
+.month{display:grid;gap:8px}
+.days{display:grid;grid-template-columns:repeat(31,minmax(0,1fr));gap:3px}
+.day{height:22px;border-radius:2px;background:var(--slot)}
+.day.past{background:var(--ink);opacity:.82}
+.day.today{background:var(--accent);opacity:1;box-shadow:0 0 0 2px var(--ground),0 0 0 4px var(--accent)}
+.month .ends{display:flex;justify-content:space-between;font:600 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:480px){.day{height:16px}.days{gap:2px}}
+
+/* standings */
+.board{display:grid;gap:20px}
+.board-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+h2{font:800 clamp(34px,5vw,52px)/1 var(--display);text-transform:uppercase;margin:0}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.key{width:12px;height:18px;border-radius:2px;display:inline-block}
+.key.a{background:var(--accent)}
+.key.r{border:2px solid var(--accent)}
+.key.q{width:2px;background:var(--gold);border-radius:0}
+
+.rows{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.row{display:grid;grid-template-columns:48px minmax(140px,220px) 1fr 84px;gap:18px;align-items:center;padding-block:16px;border-bottom:1px solid var(--line)}
+.rank{font:900 32px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--muted)}
+.row.lead .rank{color:var(--accent)}
+.who{display:flex;gap:12px;align-items:center;min-width:0}
+.av{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:800 16px/1 var(--display);letter-spacing:.04em;background:var(--accent-soft);color:var(--accent)}
+.who .nm{font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+.who .sub{font-size:13px;color:var(--muted);line-height:1.3}
+.track{display:flex;align-items:center;gap:10px;min-width:0}
+.slots{flex:1;display:grid;grid-template-columns:repeat(20,minmax(0,1fr));gap:3px;position:relative;min-width:0}
+.slot{height:26px;border-radius:2px;background:var(--slot)}
+.slot.a{background:var(--accent)}
+.slot.r{background:transparent;box-shadow:inset 0 0 0 2px var(--accent)}
+.slots::after{content:"";position:absolute;right:-6px;top:-5px;bottom:-5px;width:2px;background:var(--gold)}
+.over{flex:none;font:800 18px/1 var(--display);color:var(--gold);min-width:2.2em}
+.total{text-align:right;font:900 44px/1 var(--display);font-variant-numeric:tabular-nums}
+.total small{display:block;font:600 11px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.badge{display:inline-block;margin-left:8px;padding:3px 8px;border-radius:99px;font:700 11px/1.3 var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--gold-soft);color:var(--gold);vertical-align:2px}
+@media (max-width:700px){
+  .row{grid-template-columns:36px minmax(0,1fr) auto;row-gap:10px;column-gap:12px}
+  .track{grid-column:2 / -1}
+  .total{grid-row:1;grid-column:3;font-size:36px}
+  .rank{font-size:26px}
+  .slot{height:20px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .slot.a,.slot.r{animation:fill .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 28ms + var(--r) * 60ms)}
+  @keyframes fill{from{opacity:.3;transform:scaleY(.55)}to{opacity:1;transform:none}}
+}
+
+.empty{padding:40px 0;display:grid;gap:10px;border-bottom:1px solid var(--line)}
+.empty .big{font:800 clamp(30px,5vw,44px)/1.05 var(--display);text-transform:uppercase;text-wrap:balance}
+.empty p{margin:0;color:var(--muted);max-width:52ch}
+.slots.ghost .slot{background:var(--slot)}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}
+.rules h3{font:800 22px/1.1 var(--display);text-transform:uppercase;margin:0 0 6px;letter-spacing:.01em}
+.rules p{margin:0;color:var(--muted);font-size:15px;max-width:46ch}
+@media (max-width:640px){.rules{grid-template-columns:1fr}}
+
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer b{color:var(--ink);font-weight:600}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow"><span id="brand">Enjuvie Creator Games</span><span class="dot" aria-hidden="true"></span><span id="month-label">October 2026</span></div>
+    <h1>Most videos wins <span class="prize" id="prize">$1,000</span></h1>
+    <p class="lede">The creator who makes the <b>most videos during October</b> takes home a <b id="prize-2">$1,000</b> cash prize. It is completely separate from your commissions, performance bonuses and retainers.</p>
+    <div class="facts">
+      <div class="fact"><span class="n" id="f-min">20</span><span class="l">videos to qualify for the prize</span></div>
+      <div class="fact"><span class="n" id="f-left">–</span><span class="l" id="f-left-l">days left in the month</span></div>
+      <div class="fact"><span class="n" id="f-videos">0</span><span class="l" id="f-videos-l">videos made so far this month</span></div>
+    </div>
+    <div class="month" aria-label="Days of the month">
+      <div class="days" id="days"></div>
+      <div class="ends"><span id="d-start">Oct 1</span><span id="d-today"></span><span id="d-end">Oct 31</span></div>
+    </div>
+  </header>
+
+  <section class="board" aria-labelledby="standings">
+    <div class="board-head">
+      <h2 id="standings">Standings</h2>
+      <div class="legend">
+        <span><i class="key a"></i>Approved</span>
+        <span><i class="key r"></i>In review</span>
+        <span><i class="key q"></i><span id="lg-q">20 to qualify</span></span>
+      </div>
+    </div>
+    <ol class="rows" id="rows"></ol>
+  </section>
+
+  <section class="rules" aria-label="How videos are counted">
+    <div><h3>Every video counts</h3><p>Each video you submit on Trybe in October goes on the board as soon as you upload it, shown as in review until it is approved.</p></div>
+    <div><h3>A re-cut is the same video</h3><p>If we ask for changes and you upload a new version, it still counts as one video. A September video re-cut in October stays a September video.</p></div>
+    <div><h3>Rejected videos come off</h3><p>A video that is rejected is removed from your count. Videos still in review stay on the board while we look at them.</p></div>
+    <div><h3>The month runs on Pacific time</h3><p id="window-copy">October 1 to October 31, US Pacific time. Hit 20 videos to qualify; the most videos at the end of the month wins.</p></div>
+  </section>
+
+  <footer>
+    <span>Counts come straight from Trybe. The board checks for new videos every 15 minutes.</span>
+    <span id="updated"></span>
+  </footer>
+</div>
+
+<script id="board-data" type="application/json">{"config": {"title": "Enjuvie Creator Games", "month_label": "October 2026", "start": "2026-10-01", "end": "2026-10-31", "timezone": "America/Los_Angeles", "prize": "$1,000", "qualify_min": 20, "count_statuses": ["approved", "pending", "revision_requested"], "media_types": ["video"]}, "rows": [{"name": "Aleeza C.", "approved": 0, "in_review": 0, "last": "", "total": 0, "rank": null}, {"name": "Jessica V.", "approved": 0, "in_review": 0, "last": "", "total": 0, "rank": null}, {"name": "Lynette M.", "approved": 0, "in_review": 0, "last": "", "total": 0, "rank": null}, {"name": "Pammy O.", "approved": 0, "in_review": 0, "last": "", "total": 0, "rank": null}, {"name": "Roxanne T.", "approved": 0, "in_review": 0, "last": "", "total": 0, "rank": null}, {"name": "Tammy N.", "approved": 0, "in_review": 0, "last": "", "total": 0, "rank": null}], "players": 6, "videos": 0, "last_video": "", "built_at": "2026-10-01T04:02:58+00:00"}</script>
+<script>
+(function(){
+  var data = JSON.parse(document.getElementById('board-data').textContent);
+  var cfg = data.config, rows = data.rows, MIN = cfg.qualify_min;
+  var $ = function(id){ return document.getElementById(id); };
+  var el = function(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+  $('brand').textContent = cfg.title;
+  $('month-label').textContent = cfg.month_label;
+  $('prize').textContent = $('prize-2').textContent = cfg.prize;
+  $('f-min').textContent = MIN;
+  $('lg-q').textContent = MIN + ' to qualify';
+
+  // Today, read on the competition's own clock rather than the viewer's.
+  function ymd(d){ return new Intl.DateTimeFormat('en-CA', {timeZone: cfg.timezone, year:'numeric', month:'2-digit', day:'2-digit'}).format(d); }
+  var today = ymd(new Date());
+  var start = new Date(cfg.start + 'T12:00:00Z'), end = new Date(cfg.end + 'T12:00:00Z');
+  var nDays = Math.round((end - start) / 864e5) + 1;
+  var fmt = function(d){ return d.toLocaleDateString('en-US', {month:'short', day:'numeric', timeZone:'UTC'}); };
+  $('d-start').textContent = fmt(start); $('d-end').textContent = fmt(end);
+
+  var days = $('days'); days.style.gridTemplateColumns = 'repeat(' + nDays + ',minmax(0,1fr))';
+  var todayIdx = -1;
+  for (var i = 0; i < nDays; i++){
+    var d = new Date(start.getTime() + i * 864e5), key = d.toISOString().slice(0,10);
+    var c = el('div', 'day'); c.title = fmt(d);
+    if (key < today) c.className += ' past';
+    if (key === today){ c.className += ' today'; todayIdx = i; }
+    days.appendChild(c);
+  }
+  var left;
+  if (today < cfg.start){ left = nDays; $('f-left-l').textContent = 'days of competition ahead'; $('d-today').textContent = 'Starts ' + fmt(start); }
+  else if (today > cfg.end){ left = 0; $('f-left-l').textContent = 'The month is over. Final counts below'; $('d-today').textContent = 'Finished'; }
+  else { left = nDays - todayIdx - 1; $('f-left-l').textContent = left === 1 ? 'day left after today' : 'days left after today'; $('d-today').textContent = 'Today · day ' + (todayIdx + 1); }
+  $('f-left').textContent = left;
+
+  $('f-videos').textContent = data.videos;
+  $('f-videos-l').textContent = (data.videos === 1 ? 'video' : 'videos') + ' made this month by the ' + rows.length + ' creators in the games';
+
+  function initials(n){ return n.replace(/\./g,'').split(/\s+/).map(function(p){ return p[0] || ''; }).join('').slice(0,2).toUpperCase(); }
+
+  var list = $('rows');
+  if (!data.videos){
+    var li = el('li', 'empty');
+    li.appendChild(el('div', 'big', 'The board is open. Nobody has posted yet.'));
+    li.appendChild(el('p', null, 'Your first October video puts you at the top.'));
+    list.appendChild(li);
+  }
+  rows.forEach(function(r, ri){
+    var li = el('li', 'row' + (r.rank === 1 ? ' lead' : ''));
+    li.appendChild(el('div', 'rank', r.rank || '–'));
+    var who = el('div', 'who'); who.appendChild(el('div', 'av', initials(r.name)));
+    var txt = el('div'); var nm = el('div', 'nm', r.name);
+    if (r.total >= MIN) nm.appendChild(el('span', 'badge', 'Qualified'));
+    txt.appendChild(nm);
+    var bits = r.total ? [r.approved + ' approved'] : ['No videos yet']; if (r.in_review) bits.push(r.in_review + ' in review');
+    if (r.total < MIN) bits.push((MIN - r.total) + ' to qualify');
+    txt.appendChild(el('div', 'sub', bits.join(' · ')));
+    who.appendChild(txt); li.appendChild(who);
+
+    var track = el('div', 'track'), slots = el('div', 'slots');
+    slots.setAttribute('aria-hidden', 'true');
+    for (var s = 0; s < MIN; s++){
+      var cls = s < r.approved ? 'slot a' : (s < r.total ? 'slot r' : 'slot');
+      var sl = el('div', cls); sl.style.setProperty('--i', s); sl.style.setProperty('--r', ri); slots.appendChild(sl);
+    }
+    track.appendChild(slots);
+    track.appendChild(el('span', 'over', r.total > MIN ? '+' + (r.total - MIN) : ''));
+    li.appendChild(track);
+
+    var tot = el('div', 'total', r.total); tot.appendChild(el('small', null, r.total === 1 ? 'video' : 'videos'));
+    li.appendChild(tot);
+    li.setAttribute('aria-label', (r.rank ? r.rank + '. ' : '') + r.name + ', ' + r.total + ' videos, ' + r.approved + ' approved');
+    list.appendChild(li);
+  });
+
+  function ago(iso){
+    var m = Math.max(0, Math.round((Date.now() - new Date(iso)) / 6e4));
+    if (m < 1) return 'just now'; if (m < 60) return m + ' min ago';
+    var h = Math.round(m / 60); if (h < 48) return h + (h === 1 ? ' hour ago' : ' hours ago');
+    return Math.round(h / 24) + ' days ago';
+  }
+  function stamp(){
+    var t = $('updated'); t.textContent = '';
+    if (data.last_video){ t.appendChild(document.createTextNode('Latest video counted ')); t.appendChild(el('b', null, ago(data.last_video))); }
+    else { t.appendChild(document.createTextNode('Board published ')); t.appendChild(el('b', null, ago(data.built_at))); }
+  }
+  stamp(); setInterval(stamp, 60000);
+  // Pages has no push to open tabs, so reload a visible page every 5 minutes.
+  setInterval(function(){ if (document.visibilityState === 'visible') location.reload(); }, 300000);
+})();
+</script>
+
+</body>
+</html>
