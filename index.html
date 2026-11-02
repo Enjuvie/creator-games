@@ -116,16 +116,25 @@ h2{font:900 clamp(28px,4.4vw,42px)/1 var(--display);text-transform:uppercase;let
   .plinth .cash{grid-column:2;justify-self:start;margin:0}
 }
 
-/* ── unlock strip ─────────────────────────────────────────────── */
-.unlock{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:13px 16px;
-        border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-.unlock .ic{font-size:17px}
-.unlock .txt{flex:1;min-width:200px;font-size:14px;color:var(--muted)}
-.unlock .txt b{color:var(--ink);font-weight:600}
-.unlock .tally{font:900 26px/1 var(--display);color:var(--hot)}
+/* ── how it works: two steps, because one is a gate and one is a race ── */
+.howto{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1.6vw,14px)}
+.step{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 14px;align-items:start;
+      border:1px solid var(--line);border-radius:14px;padding:clamp(13px,2vw,18px);
+      background:linear-gradient(165deg,var(--raised),var(--surface))}
+.step .n{grid-row:span 2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+         font:800 16px/1 var(--display);background:var(--hot);color:var(--ground)}
+.step.two .n{background:var(--gold)}
+.step h3{font:800 19px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0 0 5px}
+.step.two h3{color:var(--gold)}
+.step p{margin:0;font-size:13.5px;color:var(--muted)}
+.step p b{color:var(--ink);font-weight:700}
+.step .meta{grid-column:2;margin-top:7px;font-size:12.5px;color:var(--dim)}
+.step .tally{grid-row:span 2;font:900 24px/1 var(--display);color:var(--hot);white-space:nowrap;text-align:right}
+.step.two .tally{color:var(--gold)}
+.step .tally u{text-decoration:none;color:var(--dim)}
+@media (max-width:720px){.howto{grid-template-columns:1fr}}
 .asof{font-size:12.5px;color:var(--dim)}
 .asof b{color:var(--muted);font-weight:600}
-.unlock .tally u{text-decoration:none;color:var(--dim)}
 
 /* ── standings ────────────────────────────────────────────────── */
 .rows{list-style:none;margin:0;padding:0;display:grid;gap:7px}
@@ -235,7 +244,7 @@ footer b{color:var(--muted);font-weight:600}
   <header class="hero">
     <span class="kicker" id="month-label">November 2026</span>
     <h1><span class="pool" id="pool">$3,000</span>.<br>Three places.<br>One month.</h1>
-    <p class="lede">Three cash places this month, paid <b>on top of your commissions</b>. Get <b id="gate-copy">5 approved videos</b> on the board to unlock a place — then it is <b>whoever sells the most</b> that wins.</p>
+    <p class="lede">Three cash places this month, paid <b>on top of your commissions</b>. <b id="gate-copy">5 approved videos</b> unlocks a place — after that, the three creators with the <b>highest Trybe GMV</b> take the money.</p>
     <div class="purse" id="purse"></div>
   </header>
 
@@ -244,11 +253,26 @@ footer b{color:var(--muted);font-weight:600}
     <div class="podium" id="podium"></div>
   </section>
 
-  <div class="unlock">
-    <span class="ic" aria-hidden="true">🔓</span>
-    <span class="txt" id="unlock-txt"></span>
-    <span class="tally" id="unlock-tally"></span>
-  </div>
+  <section class="howto" aria-label="How the prize is decided">
+    <div class="step one">
+      <span class="n" aria-hidden="true">1</span>
+      <div>
+        <h3>Videos unlock your place</h3>
+        <p><b id="s1-gate">5 approved videos</b> in November gets you into the running. Below that you are locked out of the cash — however much you sell.</p>
+      </div>
+      <span class="tally" id="unlock-tally"></span>
+      <p class="meta" id="unlock-txt"></p>
+    </div>
+    <div class="step two">
+      <span class="n" aria-hidden="true">2</span>
+      <div>
+        <h3>Trybe GMV decides the order</h3>
+        <p>Once you are unlocked, places are ranked on your <b>Trybe GMV</b> — the sales your own Trybe link and code bring in. <b>Not</b> how many videos you made.</p>
+      </div>
+      <span class="tally" id="gmv-tally"></span>
+      <p class="meta" id="gmv-txt"></p>
+    </div>
+  </section>
 
   <section aria-labelledby="standings-h" style="display:grid;gap:16px">
     <div class="hd"><h2 id="standings-h">Standings</h2><span class="note" id="standings-note"></span><span class="asof" id="asof"></span></div>
@@ -265,7 +289,7 @@ footer b{color:var(--muted);font-weight:600}
     <div class="rule"><span class="ic" aria-hidden="true">⚡</span><h3>It counts the moment you upload</h3><p>A new video joins your total as soon as it lands on Trybe, marked in review until we approve it.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🔁</span><h3>A re-cut is the same video</h3><p>If we ask for changes and you upload a new version, it still counts once, on the date of your original upload.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🚫</span><h3>Rejected videos come off</h3><p>A rejected video drops out of your count. Anything still in review stays on the board while we look at it.</p></div>
-    <div class="rule hi"><span class="ic" aria-hidden="true">💰</span><h3>Sales decide it</h3><p id="r-gmv">Your position is your sales — the revenue your own Trybe link and code bring in. Videos are the entry ticket, sales are the race.</p></div>
+    <div class="rule hi"><span class="ic" aria-hidden="true">💰</span><h3>Trybe GMV decides it</h3><p id="r-gmv">Your position on this board is your <b>Trybe GMV</b> — the revenue your own Trybe link and code bring in, as Trybe reports it. Videos are the entry ticket; GMV is the race.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">📆</span><h3>Sales settle overnight</h3><p id="r-lag">Trybe only reports complete days, so the money on this board runs to the end of yesterday. Your video count is live.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🏁</span><h3>Dead heats</h3><p>Level on sales is broken by who has more orders, then more approved videos, then whoever got there first.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🕐</span><h3>Pacific time</h3><p id="r-window">The month runs on US Pacific time, start to finish.</p></div>
@@ -277,7 +301,7 @@ footer b{color:var(--muted);font-weight:600}
   </footer>
 </div>
 
-<script id="board-data" type="application/json">{"config": {"title": "Enjuvie Creator Games", "month_label": "November 2026", "start": "2026-11-01", "end": "2026-11-30", "timezone": "America/Los_Angeles", "prize_pool": "$3,000", "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "qualify_min": 5, "qualify_on": "approved", "count_statuses": ["approved", "pending", "revision_requested"], "media_types": ["video"]}, "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "rows": [{"name": "Cloe P.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 14160, "conversions": 2, "by_day": {}, "total": 0, "days_active": 0, "rank": 1, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": true, "gap_cents": null}, {"name": "Grace T.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 9768, "conversions": 1, "by_day": {}, "total": 0, "days_active": 0, "rank": 2, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": true, "gap_cents": 4392}, {"name": "Lynette M.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 9493, "conversions": 1, "by_day": {}, "total": 0, "days_active": 0, "rank": 3, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": true, "gap_cents": 275}, {"name": "Gigi O.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Jennifer P.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Jessica V.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Kershey A.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Pammy O.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Rachel H.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Roxanne T.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Sophia J.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Tammy N.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}], "players": 12, "videos": 0, "gmv_cents": 33421, "conversions": 4, "gmv_through": "2026-11-01", "qualified": 0, "last_video": null, "built_at": "2026-11-02T04:58:26+00:00"}</script>
+<script id="board-data" type="application/json">{"config": {"title": "Enjuvie Creator Games", "month_label": "November 2026", "start": "2026-11-01", "end": "2026-11-30", "timezone": "America/Los_Angeles", "prize_pool": "$3,000", "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "qualify_min": 5, "qualify_on": "approved", "count_statuses": ["approved", "pending", "revision_requested"], "media_types": ["video"]}, "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "rows": [{"name": "Cloe P.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 14160, "conversions": 2, "by_day": {}, "total": 0, "days_active": 0, "rank": 1, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": 0, "new": false, "gap_cents": null}, {"name": "Grace T.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 9768, "conversions": 1, "by_day": {}, "total": 0, "days_active": 0, "rank": 2, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": 0, "new": false, "gap_cents": 4392}, {"name": "Lynette M.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 9493, "conversions": 1, "by_day": {}, "total": 0, "days_active": 0, "rank": 3, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": 0, "new": false, "gap_cents": 275}, {"name": "Gigi O.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Jennifer P.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Jessica V.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Kershey A.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Pammy O.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Rachel H.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Roxanne T.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Sophia J.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Tammy N.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}], "players": 12, "videos": 0, "gmv_cents": 33421, "conversions": 4, "gmv_through": "2026-11-01", "qualified": 0, "last_video": null, "built_at": "2026-11-02T05:05:47+00:00"}</script>
 <script>
 (function(){
   var data   = JSON.parse(document.getElementById('board-data').textContent);
@@ -386,16 +410,21 @@ footer b{color:var(--muted);font-weight:600}
     ? 'All three places are still open'
     : (winners.length < prizes.length ? (prizes.length - winners.length) + ' of ' + prizes.length + ' places still open' : 'As it stands right now');
 
-  /* ── unlock strip ────────────────────────────────────────────── */
+  /* ── the two steps ───────────────────────────────────────────── */
   var nq = rows.filter(function(r){ return r.qualified; }).length;
-  $('unlock-tally').textContent = '';
-  $('unlock-tally').appendChild(document.createTextNode(nq));
-  $('unlock-tally').appendChild(el('u', null, '/' + rows.length));
-  var ut = $('unlock-txt'); ut.textContent = '';
-  ut.appendChild(el('b', null, plural(GATE, 'approved video')));
-  ut.appendChild(document.createTextNode(nq === 0
-    ? ' unlocks a cash place. Nobody is through yet — the first one there sets the pace.'
-    : ' unlocks a cash place. ' + (nq === 1 ? 'One creator is' : nq + ' creators are') + ' through.'));
+  $('s1-gate').textContent = plural(GATE, 'approved video');
+
+  var t1 = $('unlock-tally'); t1.textContent = '';
+  t1.appendChild(document.createTextNode(nq));
+  t1.appendChild(el('u', null, '/' + rows.length));
+  $('unlock-txt').textContent = nq === 0
+    ? 'Nobody is through yet — the first one there sets the pace.'
+    : (nq === 1 ? 'One creator is through so far.' : nq + ' creators are through so far.');
+
+  $('gmv-tally').textContent = money(data.gmv_cents);
+  $('gmv-txt').textContent = data.gmv_cents
+    ? plural(data.conversions, 'order') + ' between everyone so far.'
+    : 'No sales on the board yet — it is all to play for.';
 
   /* ── standings ───────────────────────────────────────────────── */
   var list = $('rows');
@@ -438,9 +467,11 @@ footer b{color:var(--muted);font-weight:600}
     var top = el('div', 'top');
     top.appendChild(el('span', 'nm', r.name));
     if (r.prize){
-      var money = el('span', 'chip money', 'In the money · ' + r.prize.amount);
-      money.style.setProperty('--c', ['var(--gold)','var(--silver)','var(--bronze)'][cashIdx]);
-      top.appendChild(money);
+      // NOT `money` -- that name is the formatter, and `var` would hoist over
+      // it for this whole callback and break every row below.
+      var moneyChip = el('span', 'chip money', 'In the money · ' + r.prize.amount);
+      moneyChip.style.setProperty('--c', ['var(--gold)','var(--silver)','var(--bronze)'][cashIdx]);
+      top.appendChild(moneyChip);
     } else if (r.qualified){
       top.appendChild(el('span', 'chip q', 'Qualified'));
     } else {
