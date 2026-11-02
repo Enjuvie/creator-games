@@ -99,7 +99,7 @@ h2{font:900 clamp(28px,4.4vw,42px)/1 var(--display);text-transform:uppercase;let
                    box-shadow:none;font-size:22px}
 .plinth .nm{font:700 15px/1.2 var(--body);overflow-wrap:anywhere}
 .plinth.open .nm{color:var(--dim);font-weight:600}
-.plinth .score{font:900 clamp(32px,5vw,46px)/1 var(--display);color:var(--c)}
+.plinth .score{font:900 clamp(26px,4vw,38px)/1 var(--display);color:var(--c)}
 .plinth .score u{text-decoration:none;display:block;font:600 10px/1.3 var(--body);
                  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:3px}
 .plinth .cash{margin-top:auto;font:800 12px/1 var(--body);letter-spacing:.06em;color:var(--c);
@@ -123,11 +123,13 @@ h2{font:900 clamp(28px,4.4vw,42px)/1 var(--display);text-transform:uppercase;let
 .unlock .txt{flex:1;min-width:200px;font-size:14px;color:var(--muted)}
 .unlock .txt b{color:var(--ink);font-weight:600}
 .unlock .tally{font:900 26px/1 var(--display);color:var(--hot)}
+.asof{font-size:12.5px;color:var(--dim)}
+.asof b{color:var(--muted);font-weight:600}
 .unlock .tally u{text-decoration:none;color:var(--dim)}
 
 /* ── standings ────────────────────────────────────────────────── */
 .rows{list-style:none;margin:0;padding:0;display:grid;gap:7px}
-.row{display:grid;grid-template-columns:54px minmax(0,1fr) 92px;gap:clamp(10px,1.6vw,18px);
+.row{display:grid;grid-template-columns:54px minmax(0,1fr) 128px;gap:clamp(10px,1.6vw,18px);
      align-items:center;padding:13px clamp(11px,1.6vw,17px);border-radius:13px;
      border:1px solid var(--line-soft);background:var(--surface)}
 .row.cash{border-color:color-mix(in srgb,var(--c) 34%,transparent);
@@ -169,7 +171,7 @@ h2{font:900 clamp(28px,4.4vw,42px)/1 var(--display);text-transform:uppercase;let
   @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:none;opacity:1}}
 }
 .tally-col{text-align:right}
-.tally-col .v{font:900 40px/1 var(--display)}
+.tally-col .v{font:900 clamp(26px,3.4vw,36px)/1 var(--display)}
 .row.cash .tally-col .v{color:var(--c)}
 .tally-col u{text-decoration:none;display:block;font:600 10px/1.3 var(--body);
              letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:3px}
@@ -177,7 +179,7 @@ h2{font:900 clamp(28px,4.4vw,42px)/1 var(--display);text-transform:uppercase;let
   .row{grid-template-columns:40px minmax(0,1fr) auto;column-gap:11px;row-gap:9px;padding:12px}
   .who{grid-column:2/4}
   .tally-col{grid-row:1;grid-column:3}
-  .tally-col .v{font-size:30px}
+  .tally-col .v{font-size:26px}
   .pos .n{font-size:22px}
   .pips{max-width:none}
 }
@@ -233,7 +235,7 @@ footer b{color:var(--muted);font-weight:600}
   <header class="hero">
     <span class="kicker" id="month-label">November 2026</span>
     <h1><span class="pool" id="pool">$3,000</span>.<br>Three places.<br>One month.</h1>
-    <p class="lede">Three cash places this month, paid <b>on top of your commissions</b>. Get <b id="gate-copy">5 approved videos</b> on the board to unlock a place, then it is whoever makes the most.</p>
+    <p class="lede">Three cash places this month, paid <b>on top of your commissions</b>. Get <b id="gate-copy">5 approved videos</b> on the board to unlock a place — then it is <b>whoever sells the most</b> that wins.</p>
     <div class="purse" id="purse"></div>
   </header>
 
@@ -249,7 +251,7 @@ footer b{color:var(--muted);font-weight:600}
   </div>
 
   <section aria-labelledby="standings-h" style="display:grid;gap:16px">
-    <div class="hd"><h2 id="standings-h">Standings</h2><span class="note" id="standings-note"></span></div>
+    <div class="hd"><h2 id="standings-h">Standings</h2><span class="note" id="standings-note"></span><span class="asof" id="asof"></span></div>
     <ol class="rows" id="rows"></ol>
   </section>
 
@@ -263,17 +265,19 @@ footer b{color:var(--muted);font-weight:600}
     <div class="rule"><span class="ic" aria-hidden="true">⚡</span><h3>It counts the moment you upload</h3><p>A new video joins your total as soon as it lands on Trybe, marked in review until we approve it.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🔁</span><h3>A re-cut is the same video</h3><p>If we ask for changes and you upload a new version, it still counts once, on the date of your original upload.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🚫</span><h3>Rejected videos come off</h3><p>A rejected video drops out of your count. Anything still in review stays on the board while we look at it.</p></div>
-    <div class="rule"><span class="ic" aria-hidden="true">🏁</span><h3>Dead heats</h3><p>Level on videos is broken by who has more approved, and then by whoever got to that number first.</p></div>
+    <div class="rule hi"><span class="ic" aria-hidden="true">💰</span><h3>Sales decide it</h3><p id="r-gmv">Your position is your sales — the revenue your own Trybe link and code bring in. Videos are the entry ticket, sales are the race.</p></div>
+    <div class="rule"><span class="ic" aria-hidden="true">📆</span><h3>Sales settle overnight</h3><p id="r-lag">Trybe only reports complete days, so the money on this board runs to the end of yesterday. Your video count is live.</p></div>
+    <div class="rule"><span class="ic" aria-hidden="true">🏁</span><h3>Dead heats</h3><p>Level on sales is broken by who has more orders, then more approved videos, then whoever got there first.</p></div>
     <div class="rule"><span class="ic" aria-hidden="true">🕐</span><h3>Pacific time</h3><p id="r-window">The month runs on US Pacific time, start to finish.</p></div>
   </section>
 
   <footer>
-    <span>Counts come straight from Trybe. The board checks for new videos every 15 minutes.</span>
+    <span>Sales and counts come straight from Trybe. The board checks for changes every 15 minutes.</span>
     <span id="updated"></span>
   </footer>
 </div>
 
-<script id="board-data" type="application/json">{"config": {"title": "Enjuvie Creator Games", "month_label": "November 2026", "start": "2026-11-01", "end": "2026-11-30", "timezone": "America/Los_Angeles", "prize_pool": "$3,000", "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "qualify_min": 5, "qualify_on": "approved", "count_statuses": ["approved", "pending", "revision_requested"], "media_types": ["video"]}, "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "rows": [{"name": "Cloe P.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Gigi O.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Grace T.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Jennifer P.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Jessica V.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Kershey A.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Lynette M.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Pammy O.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Rachel H.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Roxanne T.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Sophia J.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}, {"name": "Tammy N.", "approved": 0, "in_review": 0, "last": "", "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap": null}], "players": 12, "videos": 0, "qualified": 0, "last_video": null, "built_at": "2026-11-02T04:41:51+00:00"}</script>
+<script id="board-data" type="application/json">{"config": {"title": "Enjuvie Creator Games", "month_label": "November 2026", "start": "2026-11-01", "end": "2026-11-30", "timezone": "America/Los_Angeles", "prize_pool": "$3,000", "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "qualify_min": 5, "qualify_on": "approved", "count_statuses": ["approved", "pending", "revision_requested"], "media_types": ["video"]}, "prizes": [{"place": 1, "amount": "$1,500", "share": "50% of the pool"}, {"place": 2, "amount": "$900", "share": "30% of the pool"}, {"place": 3, "amount": "$600", "share": "20% of the pool"}], "rows": [{"name": "Cloe P.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 14160, "conversions": 2, "by_day": {}, "total": 0, "days_active": 0, "rank": 1, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": true, "gap_cents": null}, {"name": "Grace T.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 9768, "conversions": 1, "by_day": {}, "total": 0, "days_active": 0, "rank": 2, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": true, "gap_cents": 4392}, {"name": "Lynette M.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 9493, "conversions": 1, "by_day": {}, "total": 0, "days_active": 0, "rank": 3, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": true, "gap_cents": 275}, {"name": "Gigi O.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Jennifer P.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Jessica V.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Kershey A.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Pammy O.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Rachel H.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Roxanne T.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Sophia J.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}, {"name": "Tammy N.", "approved": 0, "in_review": 0, "last": "", "gmv_cents": 0, "conversions": 0, "by_day": {}, "total": 0, "days_active": 0, "rank": null, "gate_have": 0, "qualified": false, "to_qualify": 5, "prize": null, "move": null, "new": false, "gap_cents": null}], "players": 12, "videos": 0, "gmv_cents": 33421, "conversions": 4, "gmv_through": "2026-11-01", "qualified": 0, "last_video": null, "built_at": "2026-11-02T04:58:26+00:00"}</script>
 <script>
 (function(){
   var data   = JSON.parse(document.getElementById('board-data').textContent);
@@ -283,6 +287,8 @@ footer b{color:var(--muted);font-weight:600}
   var $      = function(id){ return document.getElementById(id); };
   function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function plural(n, w){ return n + ' ' + w + (n === 1 ? '' : 's'); }
+  var USD = new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
+  function money(cents){ return USD.format((cents || 0) / 100); }
 
   $('brand').textContent = cfg.title;
   $('month-label').textContent = cfg.month_label;
@@ -364,8 +370,8 @@ footer b{color:var(--muted);font-weight:600}
     box.appendChild(el('span', 'face', r ? initials(r.name) : '?'));
     box.appendChild(el('span', 'nm', r ? r.name : 'Open'));
     if (r){
-      var sc = el('span', 'score', r.total);
-      sc.appendChild(el('u', null, r.total === 1 ? 'video' : 'videos'));
+      var sc = el('span', 'score', money(r.gmv_cents));
+      sc.appendChild(el('u', null, plural(r.total, 'video')));
       box.appendChild(sc);
     } else {
       var sc2 = el('span', 'score', '–');
@@ -373,7 +379,7 @@ footer b{color:var(--muted);font-weight:600}
       box.appendChild(sc2);
     }
     box.appendChild(el('span', 'cash', p.amount));
-    box.setAttribute('aria-label', PLACES[i] + ', ' + p.amount + ', ' + (r ? r.name + ' on ' + plural(r.total,'video') : 'nobody has claimed it yet'));
+    box.setAttribute('aria-label', PLACES[i] + ', ' + p.amount + ', ' + (r ? r.name + ' on ' + money(r.gmv_cents) + ' of sales' : 'nobody has claimed it yet'));
     podium.appendChild(box);
   });
   $('podium-note').textContent = winners.length === 0
@@ -393,17 +399,25 @@ footer b{color:var(--muted);font-weight:600}
 
   /* ── standings ───────────────────────────────────────────────── */
   var list = $('rows');
-  var leader = rows.length ? rows[0].total : 0;
-  $('standings-note').textContent = data.videos
-    ? plural(data.videos, 'video') + ' so far from ' + plural(rows.length, 'creator')
+  var leader = rows.length ? rows[0].gmv_cents : 0;
+  $('standings-note').textContent = data.gmv_cents
+    ? money(data.gmv_cents) + ' of sales from ' + plural(data.videos, 'video')
     : plural(rows.length, 'creator') + ' in the games';
+  (function(){
+    var a = $('asof'); a.textContent = '';
+    if (!data.gmv_through) return;
+    var d = new Date(data.gmv_through + 'T12:00:00Z');
+    a.appendChild(document.createTextNode('Sales to end of '));
+    a.appendChild(el('b', null, d.toLocaleDateString('en-US', {month:'short', day:'numeric', timeZone:'UTC'})));
+    a.appendChild(document.createTextNode(' · videos live'));
+  })();
 
-  if (!data.videos){
+  if (!data.gmv_cents){
     var ob = el('div', 'openboard');
     var big = el('div', 'big'); big.appendChild(document.createTextNode('The board is open. '));
-    big.appendChild(el('em', null, 'Nobody has posted yet.'));
+    big.appendChild(el('em', null, 'No sales on it yet.'));
     ob.appendChild(big);
-    ob.appendChild(el('p', null, 'Every place is unclaimed and every prize is winnable. Your first video of the month puts you top of this list.'));
+    ob.appendChild(el('p', null, 'Every place is unclaimed and every prize is winnable. Five approved videos puts you in the running, and your first sale puts you top of this list.'));
     list.parentNode.insertBefore(ob, list);
   }
 
@@ -437,7 +451,7 @@ footer b{color:var(--muted);font-weight:600}
     // Before the gate: pips to the gate. After it: progress against the leader.
     if (r.qualified){
       var xp = el('div', 'xp'); xp.setAttribute('aria-hidden','true');
-      var fillpc = leader ? Math.max(6, Math.round(r.total / leader * 100)) : 0;
+      var fillpc = leader ? Math.max(6, Math.round(r.gmv_cents / leader * 100)) : 0;
       var f = el('i'); f.style.setProperty('--w', fillpc + '%'); xp.appendChild(f);
       who.appendChild(xp);
     } else {
@@ -452,15 +466,15 @@ footer b{color:var(--muted);font-weight:600}
 
     var sub = el('div', 'sub');
     var bits = [];
-    if (r.total){
-      bits.push(plural(r.approved, 'video') + ' approved');
-      if (r.in_review) bits.push(r.in_review + ' in review');
-      if (r.days_active) bits.push(plural(r.days_active, 'day') + ' active');
-      if (r.gap > 0) bits.push(plural(r.gap, 'video') + ' off the place above');
-      else if (ri === 0 && rows.length > 1 && rows[1].total < r.total) bits.push('leading by ' + plural(r.total - rows[1].total, 'video'));
+    if (r.gmv_cents || r.total){
+      bits.push(plural(r.total, 'video') + ', ' + r.approved + ' approved');
+      if (r.conversions) bits.push(plural(r.conversions, 'order'));
+      if (r.gap_cents > 0) bits.push(money(r.gap_cents) + ' off the place above');
+      else if (ri === 0 && rows.length > 1 && rows[1].gmv_cents < r.gmv_cents) bits.push('leading by ' + money(r.gmv_cents - rows[1].gmv_cents));
+      else if (!r.gmv_cents) bits.push('no sales yet');
     } else {
-      bits.push('No videos yet this month');
-      bits.push(plural(GATE, 'video') + ' from a cash place');
+      bits.push('Nothing on the board yet');
+      bits.push(plural(GATE, 'approved video') + ' to unlock a place');
     }
     bits.forEach(function(b, bi){
       if (bi) sub.appendChild(el('s', null, '·'));
@@ -470,13 +484,13 @@ footer b{color:var(--muted);font-weight:600}
     li.appendChild(who);
 
     var tc = el('div', 'tally-col');
-    tc.appendChild(el('span', 'v', r.total));
-    tc.appendChild(el('u', null, r.total === 1 ? 'video' : 'videos'));
+    tc.appendChild(el('span', 'v', money(r.gmv_cents)));
+    tc.appendChild(el('u', null, 'in sales'));
     li.appendChild(tc);
 
     li.setAttribute('aria-label', (r.rank ? 'Position ' + r.rank + ', ' : 'Unranked, ') + r.name +
-      ', ' + plural(r.total, 'video') + ', ' + r.approved + ' approved' +
-      (r.prize ? ', in line for ' + r.prize.amount : r.qualified ? ', qualified' : ', ' + r.to_qualify + ' more to qualify'));
+      ', ' + money(r.gmv_cents) + ' of sales from ' + plural(r.total, 'video') +
+      (r.prize ? ', in line for ' + r.prize.amount : r.qualified ? ', qualified' : ', ' + r.to_qualify + ' more approved videos to qualify'));
     list.appendChild(li);
 
     if (ri === cutAfter && ri < rows.length - 1){
@@ -519,6 +533,7 @@ footer b{color:var(--muted);font-weight:600}
   function stamp(){
     var t = $('updated'); t.textContent = '';
     if (data.last_video){ t.appendChild(document.createTextNode('Latest video counted ')); t.appendChild(el('b', null, ago(data.last_video))); }
+    else if (data.gmv_cents){ t.appendChild(document.createTextNode('Board published ')); t.appendChild(el('b', null, ago(data.built_at))); }
     else { t.appendChild(document.createTextNode('Board published ')); t.appendChild(el('b', null, ago(data.built_at))); }
   }
   stamp(); setInterval(stamp, 60000);
